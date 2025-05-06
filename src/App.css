@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+  margin: 20px;
+}
+
+select, button {
+  margin: 5px;
+  padding: 5px;
+}
+
+div {
+  margin-bottom: 10px;
+}

@@ -23,6 +23,10 @@ function App() {
         path: '/states',
         options: {}
       });
+      console.log('States response:', response); // Debug log
+    // Handle nested response if necessary
+      const data = response.body ? JSON.parse(response.body) : response;
+      console.log('Parsed states data:', data); // Debug log
       // Use response directly (already parsed JSON)
       setStates(response.states || []);
     } catch (error) {

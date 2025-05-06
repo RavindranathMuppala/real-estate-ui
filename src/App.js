@@ -27,7 +27,7 @@ function App() {
       console.log('Response properties:', Object.keys(res));
       const response = await res.response;
       console.log('Resolved response:', response);
-      const data = await response.json();
+      const data = response.body ? JSON.parse(response.body) : response;
       console.log('Parsed states data:', data);
       setStates(data.states || []);
     } catch (error) {
@@ -47,7 +47,7 @@ function App() {
         console.log('Response properties:', Object.keys(res));
         const response = await res.response;
         console.log('Resolved cities response:', response);
-        const data = await response.json();
+        const data = response.body ? JSON.parse(response.body) : response;
         console.log('Parsed cities data:', data);
         setCities(data.cities || []);
         setSelectedCity('');
@@ -83,7 +83,7 @@ function App() {
       console.log('Response properties:', Object.keys(res));
       const response = await res.response;
       console.log('Resolved predict response:', response);
-      const data = await response.json();
+      const data = response.body ? JSON.parse(response.body) : response;
       console.log('Parsed predict data:', data);
       setPrediction(data.predicted_price);
     } catch (error) {

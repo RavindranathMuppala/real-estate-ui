@@ -16,24 +16,24 @@ function App() {
     generateYears();
   }, []);
 
- const fetchStates = async () => {
-  try {
-    const res = await get({
-      apiName: 'RealEstatePredictorAPI',
-      path: '/states',
-      options: {}
-    });
-    console.log('States response:', res);
-    console.log('Response properties:', Object.keys(res));
-    const response = await res.response; // Resolve the Promise
-    console.log('Resolved response:', response);
-    const data = response.body ? JSON.parse(response.body) : response; // Parse if body exists
-    console.log('Parsed states data:', data);
-    setStates(data.states || []);
-  } catch (error) {
-    console.error('Error fetching states:', error);
-  }
-};
+  const fetchStates = async () => {
+    try {
+      const res = await get({
+        apiName: 'RealEstatePredictorAPI',
+        path: '/states',
+        options: {}
+      });
+      console.log('States response:', res);
+      console.log('Response properties:', Object.keys(res));
+      const response = await res.response;
+      console.log('Resolved response:', response);
+      const data = await response.json();
+      console.log('Parsed states data:', data);
+      setStates(data.states || []);
+    } catch (error) {
+      console.error('Error fetching states:', error);
+    }
+  };
 
   const fetchCities = async (state) => {
     if (state) {
@@ -44,7 +44,9 @@ function App() {
           options: {}
         });
         console.log('Cities response:', res);
+        console.log('Response properties:', Object.keys(res));
         const response = await res.response;
+        console.log('Resolved cities response:', response);
         const data = await response.json();
         console.log('Parsed cities data:', data);
         setCities(data.cities || []);
@@ -78,7 +80,9 @@ function App() {
         }
       });
       console.log('Predict response:', res);
+      console.log('Response properties:', Object.keys(res));
       const response = await res.response;
+      console.log('Resolved predict response:', response);
       const data = await response.json();
       console.log('Parsed predict data:', data);
       setPrediction(data.predicted_price);

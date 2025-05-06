@@ -25,13 +25,11 @@ function App() {
     });
     console.log('States response:', res);
     console.log('Response properties:', Object.keys(res));
-    if (res.body) {
-      const data = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
-      console.log('Parsed states data:', data);
-      setStates(data.states || []);
-    } else {
-      console.log('No body in response:', res);
-    }
+    const response = await res.response; // Resolve the Promise
+    console.log('Resolved response:', response);
+    const data = response.body ? JSON.parse(response.body) : response; // Parse if body exists
+    console.log('Parsed states data:', data);
+    setStates(data.states || []);
   } catch (error) {
     console.error('Error fetching states:', error);
   }

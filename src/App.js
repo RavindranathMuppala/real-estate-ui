@@ -28,7 +28,9 @@ function App() {
       const response = await res.response;
       console.log('Resolved response:', response);
       if (response.body) {
-        const data = await response.body.json();
+        const rawData = await response.body.json();
+        console.log('Raw states data:', rawData);
+        const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
         console.log('Parsed states data:', data);
         setStates(data.states || []);
       } else {
@@ -52,7 +54,9 @@ function App() {
         const response = await res.response;
         console.log('Resolved cities response:', response);
         if (response.body) {
-          const data = await response.body.json();
+          const rawData = await response.body.json();
+          console.log('Raw cities data:', rawData);
+          const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
           console.log('Parsed cities data:', data);
           setCities(data.cities || []);
           setSelectedCity('');
@@ -92,7 +96,9 @@ function App() {
       const response = await res.response;
       console.log('Resolved predict response:', response);
       if (response.body) {
-        const data = await response.body.json();
+        const rawData = await response.body.json();
+        console.log('Raw predict data:', rawData);
+        const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
         console.log('Parsed predict data:', data);
         setPrediction(data.predicted_price);
       } else {

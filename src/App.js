@@ -32,7 +32,8 @@ function App() {
         console.log('Raw states data:', rawData);
         const data = rawData.body ? JSON.parse(rawData.body) : rawData;
         console.log('Parsed states data:', data);
-        setStates(data.states || []);
+        const sortedStates = (data.states || []).sort((a, b) => a.localeCompare(b));
+        setStates(sortedStates);
       } else {
         console.log('No body in resolved response:', response);
       }
@@ -58,7 +59,8 @@ function App() {
           console.log('Raw cities data:', rawData);
           const data = rawData.body ? JSON.parse(rawData.body) : rawData;
           console.log('Parsed cities data:', data);
-          setCities(data.cities || []);
+          const sortedCities = (data.cities || []).sort((a, b) => a.localeCompare(b));
+          setCities(sortedCities);
           setSelectedCity('');
         } else {
           console.log('No body in resolved cities response:', response);
@@ -70,8 +72,9 @@ function App() {
   };
 
   const generateYears = () => {
-    const currentYear = new Date().getFullYear();
-    setYears([...Array(11).keys()].map(i => currentYear - 5 + i));
+    const startYear = 2012;
+    const endYear = 2100;
+    setYears([...Array(endYear - startYear + 1).keys()].map(i => startYear + i));
   };
 
   const handleStateChange = (e) => {

@@ -27,9 +27,13 @@ function App() {
       console.log('Response properties:', Object.keys(res));
       const response = await res.response;
       console.log('Resolved response:', response);
-      const data = response.body ? JSON.parse(response.body) : response;
-      console.log('Parsed states data:', data);
-      setStates(data.states || []);
+      if (response.body) {
+        const data = await response.body.json();
+        console.log('Parsed states data:', data);
+        setStates(data.states || []);
+      } else {
+        console.log('No body in resolved response:', response);
+      }
     } catch (error) {
       console.error('Error fetching states:', error);
     }
@@ -47,10 +51,14 @@ function App() {
         console.log('Response properties:', Object.keys(res));
         const response = await res.response;
         console.log('Resolved cities response:', response);
-        const data = response.body ? JSON.parse(response.body) : response;
-        console.log('Parsed cities data:', data);
-        setCities(data.cities || []);
-        setSelectedCity('');
+        if (response.body) {
+          const data = await response.body.json();
+          console.log('Parsed cities data:', data);
+          setCities(data.cities || []);
+          setSelectedCity('');
+        } else {
+          console.log('No body in resolved cities response:', response);
+        }
       } catch (error) {
         console.error('Error fetching cities:', error);
       }
@@ -83,9 +91,13 @@ function App() {
       console.log('Response properties:', Object.keys(res));
       const response = await res.response;
       console.log('Resolved predict response:', response);
-      const data = response.body ? JSON.parse(response.body) : response;
-      console.log('Parsed predict data:', data);
-      setPrediction(data.predicted_price);
+      if (response.body) {
+        const data = await response.body.json();
+        console.log('Parsed predict data:', data);
+        setPrediction(data.predicted_price);
+      } else {
+        console.log('No body in resolved predict response:', response);
+      }
     } catch (error) {
       setPrediction(`Error: ${error.response?.data?.error || error.message}`);
       console.error('Error predicting price:', error);

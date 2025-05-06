@@ -16,22 +16,26 @@ function App() {
     generateYears();
   }, []);
 
-  const fetchStates = async () => {
-    try {
-      const res = await get({
-        apiName: 'RealEstatePredictorAPI',
-        path: '/states',
-        options: {}
-      });
-      console.log('States response:', res);
-      const response = await res.response;
-      const data = await response.json();
+ const fetchStates = async () => {
+  try {
+    const res = await get({
+      apiName: 'RealEstatePredictorAPI',
+      path: '/states',
+      options: {}
+    });
+    console.log('States response:', res);
+    console.log('Response properties:', Object.keys(res));
+    if (res.body) {
+      const data = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
       console.log('Parsed states data:', data);
       setStates(data.states || []);
-    } catch (error) {
-      console.error('Error fetching states:', error);
+    } else {
+      console.log('No body in response:', res);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching states:', error);
+  }
+};
 
   const fetchCities = async (state) => {
     if (state) {

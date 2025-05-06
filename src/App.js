@@ -23,8 +23,8 @@ function App() {
         path: '/states',
         options: {}
       });
-      const data = await response.json();
-      setStates(data.states || []);
+      // Use response directly (already parsed JSON)
+      setStates(response.states || []);
     } catch (error) {
       console.error('Error fetching states:', error);
     }
@@ -38,8 +38,8 @@ function App() {
           path: `/cities/${state}`,
           options: {}
         });
-        const data = await response.json();
-        setCities(data.cities || []);
+        // Use response directly (already parsed JSON)
+        setCities(response.cities || []);
         setSelectedCity('');
       } catch (error) {
         console.error('Error fetching cities:', error);
@@ -69,8 +69,8 @@ function App() {
           body
         }
       });
-      const data = await response.json();
-      setPrediction(data.predicted_price);
+      // Use response directly (already parsed JSON)
+      setPrediction(response.predicted_price);
     } catch (error) {
       setPrediction(`Error: ${error.response?.data?.error || error.message}`);
     }

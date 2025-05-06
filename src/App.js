@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { get, post } from '@aws-amplify/api-rest'; // Correct import
+import { get, post } from '@aws-amplify/api-rest';
 import './App.css';
 
 function App() {
@@ -18,17 +18,16 @@ function App() {
 
   const fetchStates = async () => {
     try {
-      const response = await get({
+      const res = await get({
         apiName: 'RealEstatePredictorAPI',
         path: '/states',
         options: {}
       });
-      console.log('States response:', response); // Debug log
-    // Handle nested response if necessary
-      const data = response.body ? JSON.parse(response.body) : response;
-      console.log('Parsed states data:', data); // Debug log
-      // Use response directly (already parsed JSON)
-      setStates(response.states || []);
+      console.log('States response:', res);
+      const response = await res.response;
+      const data = await response.json();
+      console.log('Parsed states data:', data);
+      setStates(data.states || []);
     } catch (error) {
       console.error('Error fetching states:', error);
     }
@@ -37,13 +36,16 @@ function App() {
   const fetchCities = async (state) => {
     if (state) {
       try {
-        const response = await get({
+        const res = await get({
           apiName: 'RealEstatePredictorAPI',
           path: `/cities/${state}`,
           options: {}
         });
-        // Use response directly (already parsed JSON)
-        setCities(response.cities || []);
+        console.log('Cities response:', res);
+        const response = await res.response;
+        const data = await response.json();
+        console.log('Parsed cities data:', data);
+        setCities(data.cities || []);
         setSelectedCity('');
       } catch (error) {
         console.error('Error fetching cities:', error);
@@ -66,17 +68,21 @@ function App() {
     e.preventDefault();
     const body = { city: selectedCity, state: selectedState, year: selectedYear };
     try {
-      const response = await post({
+      const res = await post({
         apiName: 'RealEstatePredictorAPI',
         path: '/predict',
         options: {
           body
         }
       });
-      // Use response directly (already parsed JSON)
-      setPrediction(response.predicted_price);
+      console.log('Predict response:', res);
+      const response = await res.response;
+      const data = await response.json();
+      console.log('Parsed predict data:', data);
+      setPrediction(data.predicted_price);
     } catch (error) {
       setPrediction(`Error: ${error.response?.data?.error || error.message}`);
+      console.error('Error predicting price:', error);
     }
   };
 
